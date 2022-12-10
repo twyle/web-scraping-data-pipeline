@@ -12,6 +12,15 @@ BOT_NAME = 'quotes_scraper'
 SPIDER_MODULES = ['quotes_scraper.spiders']
 NEWSPIDER_MODULE = 'quotes_scraper.spiders'
 
+CONNECTION_STRING = "{drivername}://{user}:{passwd}@{host}:{port}/{db_name}".format(
+     drivername="postgresql",
+     user="lyle",
+     passwd="lyle",
+     host="0.0.0.0",
+     port="5432",
+     db_name="scrapy_quotes",
+)
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'quotes_scraper (+http://www.yourdomain.com)'
@@ -62,9 +71,10 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'quotes_scraper.pipelines.QuotesScraperPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'quotes_scraper.pipelines.DuplicatesPipeline': 100,
+   'quotes_scraper.pipelines.SaveQuotesPipeline': 200,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
